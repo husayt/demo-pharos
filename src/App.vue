@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, nextTick, computed } from 'vue';
 import AppList from './components/AppList.vue';
 import TreeView from './components/TreeView.vue';
 import Filter from './components/Filter.vue';
 
 const data = ref([]),
   treeData = ref([]),
-  curFilter = ref(100),
+  curFilter = ref(0),
   min = ref(0),
   max = ref(0);
+
+function findItem(item, parent, level) {
+  let node = parent.children.find((x) => x.name === item[level]);
+  if (!node) {
+    node = { name: item[level], children: [], level };
+    parent.children.push(node);
+  }
+  return node;
+}
 
 onMounted(async () => {
   data.value = await (await fetch('data.json')).json();
@@ -16,14 +25,6 @@ onMounted(async () => {
     name: 'root',
     children: [],
   };
-  function findItem(item, parent, level) {
-    let node = parent.children.find((x) => x.name === item[level]);
-    if (!node) {
-      node = { name: item[level], children: [], level };
-      parent.children.push(node);
-    }
-    return node;
-  }
 
   let minS = data.value[0].spend,
     maxS = data.value[0].spend;
@@ -37,7 +38,9 @@ onMounted(async () => {
   }
   min.value = minS;
   max.value = maxS;
-  curFilter.value = (maxS - minS) / 2;
+  nextTick(() => {
+    curFilter.value = Math.ceil((maxS - minS) / 2);
+  });
   treeData.value = root;
 });
 
@@ -49,8 +52,9 @@ const filteredData = computed(() => {
 <template>
   <div class="flex-row" style="gap: 0.5rem">
     <div class="flex-col" style="justify-content: flex-start">
-      <TreeView class="tree-container" :treeData="treeData" />
-
+      <div class="tree-container">
+        <TreeView :treeData="treeData" />
+      </div>
       <Filter v-model="curFilter" :min="min" :max="max" />
     </div>
     <div class="flex-col right-container">
@@ -86,7 +90,7 @@ h3 {
 }
 
 .tree-container {
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   border-bottom: 1px solid black;
 }
 </style>

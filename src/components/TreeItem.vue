@@ -9,23 +9,11 @@ const isOpen = ref(false);
 const isFolder = computed(() => {
   return props.model.children && props.model.children.length;
 });
-
-function toggle() {
-  isOpen.value = !isOpen.value;
-}
-
-function changeType() {
-  if (!isFolder.value) {
-    props.model.children = [];
-    addChild();
-    isOpen.value = true;
-  }
-}
 </script>
 
 <template>
   <li class="list-item">
-    <div :class="{ bold: isFolder }" @click="toggle" @dblclick="changeType">
+    <div :class="{ bold: isFolder }" @click="isOpen = !isOpen">
       <span v-if="isFolder">{{ isOpen ? '▲' : '▼' }}</span>
       {{ model.name }}
     </div>

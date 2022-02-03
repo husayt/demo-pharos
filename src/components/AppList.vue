@@ -7,9 +7,10 @@ defineProps<{ msg: string; items: any[] }>();
 <template>
   <h1>{{ msg }}</h1>
 
-  <div style="display: flex; flex-wrap: wrap; gap: 4px">
-    <div v-for="{ spend, name } in items" class="box">
-      {{ name }}
+  <div style="display: flex; flex-wrap: wrap; gap: 5px">
+    <div v-for="{ spend, name, id } in items" :key="id" class="box">
+      <b>{{ name }}</b>
+      <br />
       <br />
       Total Spend: ${{ spend }}
     </div>
@@ -17,26 +18,11 @@ defineProps<{ msg: string; items: any[] }>();
 </template>
 
 <style scoped>
-a {
-  color: #42b983;
-}
-
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
-}
-
 .box {
   border-radius: 8px;
-  padding: 10px 5px;
+  padding: 30px 15px;
   flex: 0 1 auto;
+  min-width: 150px;
   border: green solid 1px;
 }
 </style>

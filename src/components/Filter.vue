@@ -14,10 +14,11 @@ defineEmits(['update:modelValue']);
     <input
       type="range"
       id="filter-range"
+      name="filter-range"
       :value="modelValue"
-      @input="$emit('update:modelValue', +$event.target.value)"
       :min="min"
       :max="max"
+      @input="$emit('update:modelValue', +$event.target.value)"
     />
     <div style="display: flex; justify-content: space-between">
       <span>${{ min }}</span> <span>${{ max }}</span>

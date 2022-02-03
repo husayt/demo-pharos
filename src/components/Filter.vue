@@ -1,36 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onUnmounted } from 'vue';
 
-const duration = ref(15 * 1000);
-const elapsed = ref(0);
-
-let lastTime = performance.now();
-let handle;
-const update = () => {
-  const time = performance.now();
-  elapsed.value += Math.min(time - lastTime, duration.value - elapsed.value);
-  lastTime = time;
-  handle = requestAnimationFrame(update);
-};
-
-update();
-onUnmounted(() => {
-  cancelAnimationFrame(handle);
-});
+defineProps<{ min?: number; max?: number; modelValue?: number }>();
+defineEmits(['update:modelValue']);
 </script>
 
 <template>
-  <h3>Filters</h3>
-  <label>Elapsed Time: <progress :value="elapsed / duration"></progress></label>
-
-  <div>{{ (elapsed / 1000).toFixed(1) }}s</div>
-
   <div>
-    Duration: <input type="range" v-model="duration" min="1" max="30000" />
-    {{ (duration / 1000).toFixed(1) }}s
+    <h3>Filters</h3>
+    <label for="filter-range" style="text-align: left"
+      ><div>Spending:</div></label
+    >
+    <input
+      type="range"
+      id="filter-range"
+      :value="modelValue"
+      @input="$emit('update:modelValue', +$event.target.value)"
+      :min="min"
+      :max="max"
+    />
+    <div style="display: flex; justify-content: space-between">
+      <span>${{ min }}</span> <span>${{ max }}</span>
+    </div>
   </div>
-
-  <button @click="elapsed = 0">Reset</button>
 </template>
 
 <style>

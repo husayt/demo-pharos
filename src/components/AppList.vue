@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-defineProps<{ msg: string }>();
-
-const count = ref(10);
+defineProps<{ msg: string; items: any[] }>();
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
 
   <div style="display: flex; flex-wrap: wrap; gap: 4px">
-    <div v-for="i in count" class="box">
-      Application z
+    <div v-for="{ spend, name } in items" class="box">
+      {{ name }}
       <br />
-      Total Spend: $93,333
+      Total Spend: ${{ spend }}
     </div>
   </div>
 </template>
@@ -37,7 +35,7 @@ code {
 
 .box {
   border-radius: 8px;
-  padding: 2px 4px;
+  padding: 10px 5px;
   flex: 0 1 auto;
   border: green solid 1px;
 }

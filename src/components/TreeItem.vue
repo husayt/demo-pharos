@@ -21,22 +21,26 @@ function changeType() {
     isOpen.value = true;
   }
 }
-
-function addChild() {
-  props.model.children.push({ name: 'new stuff' });
-}
 </script>
 
 <template>
-  <li>
+  <li class="list-item">
     <div :class="{ bold: isFolder }" @click="toggle" @dblclick="changeType">
+      <span v-if="isFolder">{{ isOpen ? '▲' : '▼' }}</span>
       {{ model.name }}
-      <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
     </div>
     <ul v-show="isOpen" v-if="isFolder">
       <TreeItem class="item" v-for="model in model.children" :model="model">
       </TreeItem>
-      <li class="add" @click="addChild">+</li>
     </ul>
   </li>
 </template>
+
+<style scoped>
+.list-item {
+  margin-left: -20px;
+  list-style-type: none;
+  text-align: left;
+  white-space: nowrap;
+}
+</style>

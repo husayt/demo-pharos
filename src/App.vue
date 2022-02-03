@@ -50,7 +50,7 @@ const filteredData = computed(() => {
   <div class="flex-row" style="gap: 0.5rem">
     <div class="flex-col" style="justify-content: flex-start">
       <TreeView class="tree-container" :treeData="treeData" />
-      {{ curFilter }}
+
       <Filter v-model="curFilter" :min="min" :max="max" />
     </div>
     <div class="flex-col right-container">
@@ -86,7 +86,6 @@ h3 {
 }
 
 .tree-container {
-  justify-self: stretch;
   flex: 1 1 auto;
   border-bottom: 1px solid black;
 }

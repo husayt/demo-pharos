@@ -37,10 +37,13 @@ onMounted(async () => {
   }
   min.value = minS;
   max.value = maxS;
+  curFilter.value = (maxS - minS) / 2;
   treeData.value = root;
 });
 
-const filteredData = computed(() => {});
+const filteredData = computed(() => {
+  return data.value.filter((x) => x.spend < curFilter.value);
+});
 </script>
 
 <template>
@@ -51,7 +54,7 @@ const filteredData = computed(() => {});
       <Filter v-model="curFilter" :min="min" :max="max" />
     </div>
     <div class="flex-col right-container">
-      <AppList :items="data" msg="Pharos Systems" />
+      <AppList :items="filteredData" msg="Pharos Systems" />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue';
 
-defineProps<{ min?: number; max?: number; modelValue?: number }>();
+defineProps<{ min?: number; max?: number; modelValue: number }>();
 defineEmits(['update:modelValue']);
 </script>
 
